@@ -4,7 +4,7 @@ import numpy as np
 try:
     import soundcard as sc
 except ImportError:
-    print("No se encuentra la librería 'soundcard'. Asegúrate de instalarla con 'pip install soundcard'.")
+    print("No se encuentra la librería 'soundcard'. Instalarla con 'pip install soundcard' en la terminal.")
 
 # Configuración del puerto serial (Cuando conecto el arduino me sale ese puerto)
 PUERTO_SERIAL = 'COM3'
@@ -68,7 +68,9 @@ def main():
                     if dato_arduino:
                         print(f"Recibido del Arduino: {dato_arduino}")
                         #TODO: Investigar cómo controlar Spotify desde Python y agregar la lógica aquí para que
-                        #  el Arduino pueda enviar comandos a Spotify.
+                        #  el Arduino pueda enviar comandos a Spotify. Bibliotecas posibles: winsdk ( Windows Media Session) 
+                        # pyautogui o spotipy (puede que directamente ayude con la pantalla lcd )
+
 
 
             except KeyboardInterrupt:
