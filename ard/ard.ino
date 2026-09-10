@@ -1,4 +1,6 @@
 //Pines de los LEDs
+//Creado por Ifer 
+//Modificado por Jeremy 
 const int LED_GRAVES = 3;
 const int LED_MEDIOS = 5;
 const int LED_AGUDOS = 6;
