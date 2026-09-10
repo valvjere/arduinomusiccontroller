@@ -1,13 +1,24 @@
 import serial
 import time
 import numpy as np
+import warnings
+from soundcard.mediafoundation import SoundcardRuntimeWarning
+
+# Ignorar la advertencia de discontinuidad de audio para limpiar la terminal
+warnings.filterwarnings("ignore", category=SoundcardRuntimeWarning)
+
+# --- Nuevos umbrales ajustados a tus datos reales ---
+UMBRAL_BAJOS = 6.5   
+UMBRAL_MEDIOS = 0.45  
+UMBRAL_ALTOS = 0.12
+
 try:
     import soundcard as sc
 except ImportError:
     print("No se encuentra la librería 'soundcard'. Instalarla con 'pip install soundcard' en la terminal.")
 
 # Configuración del puerto serial
-PUERTO_SERIAL = 'COM6'
+PUERTO_SERIAL = 'COM3'
 VELOCIDAD = 9600
 
 def main():
@@ -52,16 +63,15 @@ def main():
                 medios = np.mean(fft_data[largo//8:largo//2])
                 agudos = np.mean(fft_data[largo//2:])
 
-                # Ajusta los valores (escala 0-255)
-                val_graves = min(int(graves * 5), 255)
-                val_medios = min(int(medios * 5), 255)
-                val_agudos = min(int(agudos * 5), 255)
-                print("Se procesa bien")
-                # Formato de envío para el arduino
-                mensaje = f"G:{val_graves},M:{val_medios},A:{val_agudos}\n"
-                print(f"Enviando: {mensaje.strip()}")
-                arduino.write(mensaje.encode('utf-8'))
+                # --- PISO MÁS ALTO Y MULTIPLICADOR CONTROLADO ---
+                # Ahora exigimos que la música supere un nivel más alto para encender
+                val_graves = min(int(max(0, graves - 6.5) * 40), 255)
+                val_medios = min(int(max(0, medios - 0.42) * 700), 255)
+                val_agudos = min(int(max(0, agudos - 0.12) * 1400), 255)
 
+                # Envío ultrarrápido de 3 bytes puros al Arduino
+                if arduino:
+                    arduino.write(bytes([val_graves, val_medios, val_agudos]))
             except KeyboardInterrupt:
                 print("\nFinalizando script...")
                 break
