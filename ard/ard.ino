@@ -9,8 +9,6 @@ const int LED_AGUDOS = 10;
 
 // Pines para los botones de control multimedia (usando resistencias Pull-up internas)
 const int BTN_PLAY = 7;
-const int BTN_NEXT = 10;
-const int BTN_PREV = 13;
 
 // Variables para control de antirrebote (debounce)
 unsigned long ultimoTiempoPlay = 0;
