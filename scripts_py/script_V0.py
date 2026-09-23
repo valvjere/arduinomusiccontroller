@@ -4,7 +4,7 @@ import numpy as np
 import warnings
 from soundcard.mediafoundation import SoundcardRuntimeWarning
 
-# Ignorar la advertencia de discontinuidad de audio para limpiar la terminal
+# Ignorar la advertencia de discontinuidad de audio para limpiar la terminal 
 warnings.filterwarnings("ignore", category=SoundcardRuntimeWarning)
 
 # --- Nuevos umbrales ajustados a tus datos reales ---
